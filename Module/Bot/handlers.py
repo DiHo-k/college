@@ -10,7 +10,8 @@ from Module.Tools.states import HomeWork, Teacher
 import Module.Bot.kb as kb
 from Module.Tools.filters import IsAdmin
 from aiogram.types.callback_query import CallbackQuery
-import Module.Tools.SQLite
+from Module.Tools import SQLite
+import Module.Tools.FilePath as FilePath
 
 router = Router()
 
@@ -27,6 +28,12 @@ async def create_teacher(msg: Message, state: FSMContext):
 @router.message(Teacher.tc)
 async def process_teacher(msg: Message, state: FSMContext):
     await state.update_data(tc = msg.text)
-    print(msg.text.split(", "))
-    text = [random.choice(string.ascii_lowercase + string.digits if i != 5 else string.ascii_uppercase) for i in range(20)]
-    await state.clear()
+    lst = msg.text.split(", ")
+    print(lst)
+    Name = lst[0]
+    # Own_Group = lst[1]
+    Key = "".join([random.choice(string.ascii_lowercase + string.digits if i != 5 else string.ascii_uppercase) for i in range(20)])
+    print(SQLite.readInfo(FilePath.people, 'PRAGMA table_info("teacher")'))
+    print(Name, Key)
+    SQLite.writeInfo(FilePath.people, f"INSERT INTO teacher (Name, Key) VALUES ('{Name}', '{Key}')")
+    # await state.clear()
