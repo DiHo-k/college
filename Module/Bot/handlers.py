@@ -15,6 +15,10 @@ import Module.Tools.FilePath as FilePath
 
 router = Router()
 
+@router.message(Command("start"))
+async def start(msg: Message):
+    await msg.answer("Вітаю я бот Фахового коледжу транспорту на комп'ютерних технологій")
+
 @router.message(Command("admin"),IsAdmin())
 async def start_handler(msg: Message):
     await msg.answer("Привет {name}".format(name=msg.from_user.id), reply_markup=kb.admin_panel)
