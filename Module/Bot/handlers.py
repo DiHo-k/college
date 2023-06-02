@@ -29,11 +29,22 @@ async def create_teacher(msg: Message, state: FSMContext):
 async def process_teacher(msg: Message, state: FSMContext):
     await state.update_data(tc = msg.text)
     lst = msg.text.split(", ")
-    print(lst)
     Name = lst[0]
-    # Own_Group = lst[1]
+    own_group = lst[1]
     Key = "".join([random.choice(string.ascii_lowercase + string.digits if i != 5 else string.ascii_uppercase) for i in range(20)])
-    print(SQLite.readInfo(FilePath.people, 'PRAGMA table_info("teacher")'))
-    print(Name, Key)
-    SQLite.writeInfo(FilePath.people, f"INSERT INTO teacher (Name, Key) VALUES ('{Name}', '{Key}')")
-    # await state.clear()
+    SQLite.writeInfo(FilePath.people, f"INSERT INTO teacher (Name, Key, own_group) VALUES (%s,%s,%s)", (Name, Key, own_group))
+    await msg.answer(f"Викладач {Name} був успішно створений, для того щоб авторизуватись в боті йому потрібно надіслати `/login {Key}`",parse_mode="Markdown")
+    await state.clear()
+    
+@router.message(Command("login"))
+async def login(msg: Message):
+    key = msg.text.split(" ")[1]
+    usrid = msg.from_user.id
+    temp = SQLite.readInfo(FilePath.people,f"SELECT * FROM teacher WHERE Key = '{key}'")
+    print(temp)
+    if temp[0][4] is None:
+        await msg.answer(f"Вітаю {temp[0][1]}")
+        SQLite.writeInfo(FilePath.people, f"UPDATE teacher set user_id = ? WHERE Key = ?", (usrid,key))
+    else:
+        await msg.answer('Такий користувач вже активований')
+    

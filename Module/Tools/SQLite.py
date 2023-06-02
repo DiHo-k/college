@@ -11,7 +11,7 @@ def readInfo(Path: str, Request: str):
         return Method.fetchall()
 
 
-def writeInfo(Path: str, Request: str):
+def writeInfo(Path: str, Request: str, Val: set):
     with sqlite3.connect(Path) as Base:
         Method = Base.cursor()
-        Method.execute(Request)
+        Method.execute(Request, Val)
