@@ -2,3 +2,6 @@
 
 class HomeWork(StatesGroup):
     task = State()
+    
+class Teacher(StatesGroup):
+    tc = State()
