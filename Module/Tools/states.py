@@ -5,3 +5,6 @@ class HomeWork(StatesGroup):
     
 class Teacher(StatesGroup):
     tc = State()
+    
+class Notification(StatesGroup):
+    nf = State()
