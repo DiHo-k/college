@@ -12,8 +12,20 @@ teacher_panel = [
 teacher_panel = ReplyKeyboardMarkup(keyboard=teacher_panel, resize_keyboard=True)
 
 admin_send_notification = [
-    [KeyboardButton(text="Всім"),KeyboardButton(text="Викладачам"),KeyboardButton(text="Студентам")]
+    [KeyboardButton(text="Всім"),KeyboardButton(text="Викладачам"),KeyboardButton(text="Студентам"), KeyboardButton(text="Відміна")]
 ]
 
 admin_send_notification = ReplyKeyboardMarkup(keyboard=admin_send_notification,resize_keyboard=True)
 
+student_panel = [
+    [KeyboardButton(text="Розклад"), KeyboardButton(text="Повідомлення куратору")]
+]
+student_panel = ReplyKeyboardMarkup(keyboard=student_panel,resize_keyboard=True)
+
+cancel = [[KeyboardButton(text="Відміна")]]
+cancel = ReplyKeyboardMarkup(keyboard=cancel, resize_keyboard=True)
+
+branch_panel = [
+    [KeyboardButton(text='KN'),KeyboardButton(text="KI"),KeyboardButton(text='ET')]
+]
+branch_panel = ReplyKeyboardMarkup(keyboard=branch_panel, resize_keyboard=True)
