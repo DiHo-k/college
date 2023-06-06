@@ -1,5 +1,5 @@
 ﻿from aiogram import F, Router, types
-from aiogram.filters import Command
+from aiogram.filters import Command, Text
 from aiogram.types import Message
 from aiogram import flags
 from aiogram.fsm.context import FSMContext
@@ -138,14 +138,16 @@ async def studentNFprocess(msg: Message, state: FSMContext):
     Name = SQLite.readInfo(FilePath.people, f"SELECT name FROM students WHERE user_id = {usrid}")[0][0]
     crgroup = SQLite.readInfo(FilePath.people, f"SELECT own_group FROM students WHERE user_id = {usrid}")[0][0]
     crid = SQLite.readInfo(FilePath.people, f"SELECT user_id FROM teacher WHERE own_group = '{crgroup}'")[0][0]
+    await msg.answer(text="Повідомлення надіслано", reply_markup=kb.student_panel)
     await SendMessage(chat_id=crid, text=f"{msg.text} \n\n {Name}")
+    await state.clear()
     
 @router.message(Command("student"))
 async def stpanel(msg: Message):
     await msg.answer("Вітаю", reply_markup=kb.student_panel)
     
 @router.message(Command("teacher"))
-async def stpanel(msg: Message):
+async def tcpanel(msg: Message):
     await msg.answer("Вітаю", reply_markup=kb.teacher_panel)
     
 @router.message(F.text == "Відправити домашнє завдання", IsTeacher())
@@ -186,3 +188,42 @@ async def sendHomeWork_sendTask(msg: Message, state: FSMContext):
 #     temp = []
 #     temp += str(msg.document.file_id)
 #     print(temp)
+
+@router.message(F.text == "Розклад")
+async def get_schedule(msg: Message):
+    await msg.answer(text='Оберіть день тижня', reply_markup=kb.schedule_panel)
+    
+@router.callback_query(Text("monday"))
+async def monday(callback: CallbackQuery):
+    usrid = callback.from_user.id
+    grp = SQLite.readInfo(FilePath.people, f"SELECT own_group FROM students WHERE user_id = '{usrid}'")[0][0] 
+    sc = SQLite.readInfo(FilePath.schedule, f"SELECT Понеділок FROM {grp}")[0][0]
+    await callback.answer(text=str(sc), show_alert=True)
+    
+@router.callback_query(Text("tuesday"))
+async def monday(callback: CallbackQuery):
+    usrid = callback.from_user.id
+    grp = SQLite.readInfo(FilePath.people, f"SELECT own_group FROM students WHERE user_id = '{usrid}'")[0][0] 
+    sc = SQLite.readInfo(FilePath.schedule, f"SELECT Вівторок FROM {grp}")[0][0]
+    await callback.answer(text=str(sc), show_alert=True)
+    
+@router.callback_query(Text("wednesday"))
+async def monday(callback: CallbackQuery):
+    usrid = callback.from_user.id
+    grp = SQLite.readInfo(FilePath.people, f"SELECT own_group FROM students WHERE user_id = '{usrid}'")[0][0] 
+    sc = SQLite.readInfo(FilePath.schedule, f"SELECT Середа FROM {grp}")[0][0]
+    await callback.answer(text=str(sc), show_alert=True)
+    
+@router.callback_query(Text("thursday"))
+async def monday(callback: CallbackQuery):
+    usrid = callback.from_user.id
+    grp = SQLite.readInfo(FilePath.people, f"SELECT own_group FROM students WHERE user_id = '{usrid}'")[0][0] 
+    sc = SQLite.readInfo(FilePath.schedule, f"SELECT Четвер FROM {grp}")[0][0]
+    await callback.answer(text=str(sc), show_alert=True)
+    
+@router.callback_query(Text("friday"))
+async def monday(callback: CallbackQuery):
+    usrid = callback.from_user.id
+    grp = SQLite.readInfo(FilePath.people, f"SELECT own_group FROM students WHERE user_id = '{usrid}'")[0][0] 
+    sc = SQLite.readInfo(FilePath.schedule, f"SELECT Пятниця FROM {grp}")[0][0]
+    await callback.answer(text=str(sc), show_alert=True)

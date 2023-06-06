@@ -29,3 +29,6 @@ branch_panel = [
     [KeyboardButton(text='KN'),KeyboardButton(text="KI"),KeyboardButton(text='ET')]
 ]
 branch_panel = ReplyKeyboardMarkup(keyboard=branch_panel, resize_keyboard=True)
+
+schedule_panel = [[InlineKeyboardButton(text="Понеділок", callback_data="monday"),InlineKeyboardButton(text="Вівторок", callback_data="tuesday"),InlineKeyboardButton(text="Середа", callback_data="wednesday"),InlineKeyboardButton(text="Четвер", callback_data="thursday"),InlineKeyboardButton(text="П'ятниця", callback_data="friday")]]
+schedule_panel = InlineKeyboardMarkup(inline_keyboard=schedule_panel)
