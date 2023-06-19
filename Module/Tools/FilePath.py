@@ -1,2 +1,2 @@
-﻿people   = "DataBase/people.db"
+﻿people = "DataBase/people.db"
 schedule = "DataBase/schedule.db"
