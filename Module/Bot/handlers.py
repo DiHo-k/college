@@ -325,16 +325,16 @@ async def friday(callback: CallbackQuery):
     await callback.answer(text=str(sc), show_alert=True)
 
 @router.message(F.text == 'Вступникам')
+async def matriculant(msg: Message):
+    await msg.answer("Оберіть пункт меню", reply_markup=kb.matriculant_panel)
 
 @router.message(F.text == 'Спеціальності')
-async def profession(msg: Message, state: FSMContext):
-    await state.set_state(Prof.choice)
+async def profession(msg: Message):
     await msg.answer("Оберіть спеціальність", reply_markup=kb.profession_panel)
 
 
-@router.message(Prof.choice)
-async def choiceProf(msg: Message, state: FSMContext):
-    await state.update_data(choice=msg.text)
+@router.message(F.text.in_({'АТ - 274','ЕТ - 141','ЕП - 051','КІ - 123','КН - 122','ТТ - 275','ГМ - 133'}))
+async def choiceProf(msg: Message):
     match msg.text:
         case 'АТ - 274':
             await msg.answer(prof_at)
@@ -357,4 +357,19 @@ async def choiceProf(msg: Message, state: FSMContext):
         case 'ГМ - 133':
             await msg.answer(prof_gm)
             await msg.answer(info_gm)
+    await state.clear()
     
+@router.message(F.text == "Перелік документів")
+async def doclist(msg: Message):
+    await msg.answer(documents_list)
+    await msg.answer(warn, parse_mode="MarkdownV2")
+    
+@router.message(F.text == "Прийом документів")
+async def getdocs(msg: Message):
+    await msg.answer(docs9, parse_mode="MarkdownV2")
+
+@router.message(F.text == "Результати прийому")
+async def send_result(msg: Message):
+    await msg.answer(result1, parse_mode="MarkdownV2")
+    await msg.answer(result2, parse_mode="MarkdownV2")
+    await msg.answer(result3, parse_mode="MarkdownV2")

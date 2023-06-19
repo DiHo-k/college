@@ -22,5 +22,3 @@ class NfForCurator(StatesGroup):
 class Register(StatesGroup):
     stinf = State()
     
-class Prof(StatesGroup):
-    choice = State()

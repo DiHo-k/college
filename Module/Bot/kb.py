@@ -58,12 +58,12 @@ start_panel = [[
 ]]
 start_panel = ReplyKeyboardMarkup(keyboard=start_panel, resize_keyboard=True)
 
-matriculant_panel = [[
-    KeyboardButton(text='Спеціальності'),
-    KeyboardButton(text='Перелік документів'),
-    KeyboardButton(text='Прийом документів'),
-    KeyboardButton(text='Результати прийому'),
-]]
+matriculant_panel = [
+    [KeyboardButton(text='Спеціальності')],
+    [KeyboardButton(text='Перелік документів')],
+    [KeyboardButton(text='Прийом документів')],
+    [KeyboardButton(text='Результати прийому')],
+]
 
 matriculant_panel = ReplyKeyboardMarkup(keyboard=matriculant_panel,
                                         resize_keyboard=True)
