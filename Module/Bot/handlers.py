@@ -15,13 +15,14 @@ from aiogram.types.callback_query import CallbackQuery
 from Module.Tools import SQLite
 import Module.Tools.FilePath as FilePath
 from Module.Tools.text import *
+from aiogram.enums import ChatType
 
 router = Router()
 list_id = []
 media = []
 
 
-@router.message(Command("start"))
+@router.message(Command("start"), F.chat.type == ChatType.PRIVATE)
 async def start(msg: Message):
     await msg.answer(
         welcome_message,
