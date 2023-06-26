@@ -7,8 +7,8 @@ class HomeWork(StatesGroup):
     branch = State()
 
 
-class Teacher(StatesGroup):
-    tc = State()
+class grp(StatesGroup):
+    choicegrp = State()
 
 
 class Notification(StatesGroup):

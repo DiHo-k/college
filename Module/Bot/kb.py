@@ -2,24 +2,12 @@
 
 admin_panel = [
     [
-        KeyboardButton(text="Створити викладача"),
         KeyboardButton(text="Відправити повідомлення"),
     ],
 ]
 admin_panel = ReplyKeyboardMarkup(keyboard=admin_panel, resize_keyboard=True)
 
-teacher_panel = [[
-    KeyboardButton(text="Надіслати повідомлення групі"),
-    KeyboardButton(text="Відправити домашнє завдання"),
-]]
-
-teacher_panel = ReplyKeyboardMarkup(keyboard=teacher_panel,
-                                    resize_keyboard=True)
-
 admin_send_notification = [[
-    KeyboardButton(text="Всім"),
-    KeyboardButton(text="Викладачам"),
-    KeyboardButton(text="Студентам"),
     KeyboardButton(text="Відміна"),
 ]]
 
@@ -28,20 +16,12 @@ admin_send_notification = ReplyKeyboardMarkup(keyboard=admin_send_notification,
 
 student_panel = [[
     KeyboardButton(text="Розклад"),
-    KeyboardButton(text="Повідомлення куратору"),
 ]]
 student_panel = ReplyKeyboardMarkup(keyboard=student_panel,
                                     resize_keyboard=True)
 
 cancel = [[KeyboardButton(text="Відміна")]]
 cancel = ReplyKeyboardMarkup(keyboard=cancel, resize_keyboard=True)
-
-branch_panel = [[
-    KeyboardButton(text='KN'),
-    KeyboardButton(text="KI"),
-    KeyboardButton(text='ET'),
-]]
-branch_panel = ReplyKeyboardMarkup(keyboard=branch_panel, resize_keyboard=True)
 
 schedule_panel = [[
     InlineKeyboardButton(text="Понеділок", callback_data="monday"),
@@ -63,6 +43,7 @@ matriculant_panel = [
     [KeyboardButton(text='Перелік документів')],
     [KeyboardButton(text='Прийом документів')],
     [KeyboardButton(text='Результати прийому')],
+    [KeyboardButton(text="<< Назад")]
 ]
 
 matriculant_panel = ReplyKeyboardMarkup(keyboard=matriculant_panel,
@@ -76,7 +57,19 @@ profession_panel = [[
     KeyboardButton(text='КН - 122'),
     KeyboardButton(text='ТТ - 275'),
     KeyboardButton(text='ГМ - 133'),
-]]
+],[KeyboardButton(text="< Назад")]]
 
 profession_panel = ReplyKeyboardMarkup(keyboard=profession_panel,
                                        resize_keyboard=True)
+
+choice_prof = [[
+    KeyboardButton(text='АТ'),
+    KeyboardButton(text='ЕТ'),
+    KeyboardButton(text='ЕП'),
+    KeyboardButton(text='КІ'),
+    KeyboardButton(text='КН'),
+    KeyboardButton(text='ТТ'),
+    KeyboardButton(text='ГМ'),
+]]
+
+choice_prof = ReplyKeyboardMarkup(keyboard=choice_prof, resize_keyboard=True)
