@@ -29,32 +29,18 @@ async def start(msg: Message):
         SQLite.writeInfo(FilePath.people,
                          """INSERT INTO users (user_id,name) VALUES (?,?)""",
                          (msg.from_user.id, msg.from_user.first_name))
-    except:
-        pass
+    except: pass
 
 
 @router.message(Command("admin"), IsAdmin())
-async def start_handler(msg: Message):
+async def adminm(msg: Message):
     await msg.answer(text="1", reply_markup=kb.admin_panel)
 
 
 @router.message(F.text == "Відправити повідомлення", IsAdmin())
-async def AdmNotification(msg: Message):
-    await msg.answer("Оберіть пункт у меню",
-                     reply_markup=kb.admin_send_notification)
-
-
-@router.message(F.text == "Всім", IsAdmin())
-async def sendNotificationAll(msg: Message, state: FSMContext):
+async def AdmNotification(msg: Message, state:FSMContext):
     await state.set_state(Notification.nf)
-    global list_id
-    list_id = [
-        _[0] for _ in SQLite.readInfo(FilePath.people,
-                                      "SELECT user_id FROM teacher")
-    ] + [
-        _[0] for _ in SQLite.readInfo(FilePath.people,
-                                      "SELECT user_id FROM students")
-    ]
+    await msg.answer("Напишіть повідомлення")
 
 
 @router.message(F.text == "Відміна", IsAdmin())
@@ -67,18 +53,13 @@ async def AdminCancel(msg: Message, state: FSMContext):
 @router.message(Notification.nf)
 async def processNotifiacationAll(msg: Message, state: FSMContext):
     await state.update_data(nf=msg)
-    global list_id
-    await send_notification(msg, list_id)
-    list_id.clear()
-    await state.clear()
-
-
-async def send_notification(mesg, lst):
-    for _ in lst:
+    temp = SQLite.readInfo(FilePath.people, """SELECT user_id from users""")
+    print(temp)
+    for i in temp:
         try:
-            await SendMessage(chat_id=_, text=mesg)
-        except:
-            pass
+            await SendMessage(chat_id=i[0], text=msg.text)
+        except: pass
+    await state.clear()
 
 
 @router.message(F.text == "Розклад")
@@ -120,7 +101,7 @@ async def wednesday(callback: CallbackQuery):
 
 
 @router.callback_query(Text("thursday"))
-async def thuesday(callback: CallbackQuery):
+async def thursday(callback: CallbackQuery):
     usrid = callback.from_user.id
     grp = SQLite.readInfo(
         FilePath.people,
@@ -208,7 +189,7 @@ async def nz1(msg: Message):
 
 
 @router.message(F.text == "Абітурієнтам")
-async def matriculant(msg: Message):
+async def abi(msg: Message):
     await msg.answer(text="Оберіть cпецiальнiсть", reply_markup=kb.choice_prof)
 
 
