@@ -5,8 +5,6 @@ from aiogram import flags
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State
 from aiogram.methods import SendMessage, GetFile
-import random
-import string
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from Module.Tools.states import *
 import Module.Bot.kb as kb
@@ -213,6 +211,7 @@ async def chgrp(msg: Message, state: FSMContext):
                      f"""UPDATE users SET own_group = ? WHERE user_id = ?""",
                      (msg.text, msg.from_user.id))
     await msg.answer("Оберіть день тижня", reply_markup=kb.schedule_panel)
+    await msg.answer("Повернення до головного меню\n(Для того щоб знов подивитися розклад достатньо відправити /schedule)", reply_markup=kb.start_panel)
     await state.clear()
 
 
@@ -231,3 +230,20 @@ def twentyfive(val):
 async def rettostrt(msg: Message):
     await msg.answer("Повернення до головного меню",
                      reply_markup=kb.start_panel)
+    
+@router.message(F.text == "Приклад документів")
+async def sendExampledoc(msg: Message):
+    await msg.answer_photo(photo=types.FSInputFile("photos/svidotstvo.jpg"), caption="Приклад документу про здобутий освітній рівень")
+    await msg.answer_photo(photo=types.FSInputFile("photos/passport.jpg"), caption="Приклад пасспорту")
+    await msg.answer_photo(photo=types.FSInputFile("photos/inn.png"), caption="Приклад ідентифікаційного коду")
+    await msg.answer_photo(photo=types.FSInputFile("photos/viys.png"), caption="Приклад військово облікових документів")
+    await msg.answer_photo(photo=types.FSInputFile("photos/zno.jpg"), caption="Приклад сертифікату зно")
+    await msg.answer_photo(photo=types.FSInputFile("photos/forma_086-1.jpg"), caption="Приклад форми 086-1/o ")
+    await msg.answer_photo(photo=types.FSInputFile("photos/forma-063-o.jpg"), caption="Приклад форми 063/o")
+    
+@router.message(Command("schedule"))
+async def getsch(msg: Message):
+    val = SQLite.readInfo(FilePath.people,f"SELECT own_group from users WHERE user_id == {msg.from_user.id}")
+    twentyfive(val[0][0])
+    await msg.answer("Оберіть день тижня", reply_markup=kb.schedule_panel)
+

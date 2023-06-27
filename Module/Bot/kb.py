@@ -40,7 +40,7 @@ start_panel = ReplyKeyboardMarkup(keyboard=start_panel, resize_keyboard=True)
 
 matriculant_panel = [
     [KeyboardButton(text='Спеціальності')],
-    [KeyboardButton(text='Перелік документів')],
+    [KeyboardButton(text='Перелік документів'),KeyboardButton(text='Приклад документів')],
     [KeyboardButton(text='Прийом документів')],
     [KeyboardButton(text='Результати прийому')],
     [KeyboardButton(text="<< Назад")]
@@ -70,6 +70,6 @@ choice_prof = [[
     KeyboardButton(text='КН'),
     KeyboardButton(text='ТТ'),
     KeyboardButton(text='ГМ'),
-]]
+], [KeyboardButton(text="Головне меню")]]
 
 choice_prof = ReplyKeyboardMarkup(keyboard=choice_prof, resize_keyboard=True)
