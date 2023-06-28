@@ -27,7 +27,8 @@ async def start(msg: Message):
         SQLite.writeInfo(FilePath.people,
                          """INSERT INTO users (user_id,name) VALUES (?,?)""",
                          (msg.from_user.id, msg.from_user.first_name))
-    except: pass
+    except:
+        pass
 
 
 @router.message(Command("admin"), IsAdmin())
@@ -36,7 +37,7 @@ async def adminm(msg: Message):
 
 
 @router.message(F.text == "Відправити повідомлення", IsAdmin())
-async def AdmNotification(msg: Message, state:FSMContext):
+async def AdmNotification(msg: Message, state: FSMContext):
     await state.set_state(Notification.nf)
     await msg.answer("Напишіть повідомлення")
 
@@ -56,7 +57,8 @@ async def processNotifiacationAll(msg: Message, state: FSMContext):
     for i in temp:
         try:
             await SendMessage(chat_id=i[0], text=msg.text)
-        except: pass
+        except:
+            pass
     await state.clear()
 
 
@@ -211,7 +213,9 @@ async def chgrp(msg: Message, state: FSMContext):
                      f"""UPDATE users SET own_group = ? WHERE user_id = ?""",
                      (msg.text, msg.from_user.id))
     await msg.answer("Оберіть день тижня", reply_markup=kb.schedule_panel)
-    await msg.answer("Повернення до головного меню\n(Для того щоб знов подивитися розклад достатньо відправити /schedule)", reply_markup=kb.start_panel)
+    await msg.answer(
+        "Повернення до головного меню\n(Для того щоб знов подивитися розклад достатньо відправити /schedule)",
+        reply_markup=kb.start_panel)
     await state.clear()
 
 
@@ -230,20 +234,31 @@ def twentyfive(val):
 async def rettostrt(msg: Message):
     await msg.answer("Повернення до головного меню",
                      reply_markup=kb.start_panel)
-    
+
+
 @router.message(F.text == "Приклад документів")
 async def sendExampledoc(msg: Message):
-    await msg.answer_photo(photo=types.FSInputFile("photos/svidotstvo.jpg"), caption="Приклад документу про здобутий освітній рівень")
-    await msg.answer_photo(photo=types.FSInputFile("photos/passport.jpg"), caption="Приклад пасспорту")
-    await msg.answer_photo(photo=types.FSInputFile("photos/inn.png"), caption="Приклад ідентифікаційного коду")
-    await msg.answer_photo(photo=types.FSInputFile("photos/viys.png"), caption="Приклад військово облікових документів")
-    await msg.answer_photo(photo=types.FSInputFile("photos/zno.jpg"), caption="Приклад сертифікату зно")
-    await msg.answer_photo(photo=types.FSInputFile("photos/forma_086-1.jpg"), caption="Приклад форми 086-1/o ")
-    await msg.answer_photo(photo=types.FSInputFile("photos/forma-063-o.jpg"), caption="Приклад форми 063/o")
-    
+    await msg.answer_photo(
+        photo=types.FSInputFile("photos/svidotstvo.jpg"),
+        caption="Приклад документу про здобутий освітній рівень")
+    await msg.answer_photo(photo=types.FSInputFile("photos/passport.jpg"),
+                           caption="Приклад пасспорту")
+    await msg.answer_photo(photo=types.FSInputFile("photos/inn.png"),
+                           caption="Приклад ідентифікаційного коду")
+    await msg.answer_photo(photo=types.FSInputFile("photos/viys.png"),
+                           caption="Приклад військово облікових документів")
+    await msg.answer_photo(photo=types.FSInputFile("photos/zno.jpg"),
+                           caption="Приклад сертифікату зно")
+    await msg.answer_photo(photo=types.FSInputFile("photos/forma_086-1.jpg"),
+                           caption="Приклад форми 086-1/o ")
+    await msg.answer_photo(photo=types.FSInputFile("photos/forma-063-o.jpg"),
+                           caption="Приклад форми 063/o")
+
+
 @router.message(Command("schedule"))
 async def getsch(msg: Message):
-    val = SQLite.readInfo(FilePath.people,f"SELECT own_group from users WHERE user_id == {msg.from_user.id}")
+    val = SQLite.readInfo(
+        FilePath.people,
+        f"SELECT own_group from users WHERE user_id == {msg.from_user.id}")
     twentyfive(val[0][0])
     await msg.answer("Оберіть день тижня", reply_markup=kb.schedule_panel)
-
