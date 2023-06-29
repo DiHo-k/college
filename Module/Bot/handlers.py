@@ -33,7 +33,7 @@ async def start(msg: Message):
 
 @router.message(Command("admin"), IsAdmin())
 async def adminm(msg: Message):
-    await msg.answer(text="1", reply_markup=kb.admin_panel)
+    await msg.answer(text="Вітаю адміністратор", reply_markup=kb.admin_panel)
 
 
 @router.message(F.text == "Відправити повідомлення", IsAdmin())
