@@ -198,6 +198,7 @@ async def getgr(msg: Message, state: FSMContext):
     await state.set_state(grp.choicegrp)
     builder = ReplyKeyboardBuilder()
     temp = twentyfive(msg.text)
+    print(temp)
     for i in temp:
         builder.add(types.KeyboardButton(text=str(i)))
     builder.adjust(4)
